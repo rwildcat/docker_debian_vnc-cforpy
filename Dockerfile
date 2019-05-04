@@ -15,7 +15,7 @@ RUN \
 	&& apt install -y default-jdk \
 	\
 	# netbeans
-	wget -q -O /tmp/netbeans.sh https://download.netbeans.org/netbeans/8.2/final/bundles/netbeans-8.2-cpp-linux-x64.sh \
+	wget -O /tmp/netbeans.sh https://download.netbeans.org/netbeans/8.2/final/bundles/netbeans-8.2-cpp-linux-x64.sh \
 	&& DISPLAY=:1 bash /tmp/netbeans.sh --silent \
 	&& rm -rf /var/lib/apt/lists/* /tmp/*
 
