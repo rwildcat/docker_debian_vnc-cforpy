@@ -1,10 +1,10 @@
 # Debian-VNC-CForPy
 
-A Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides tools for C, Fortran and Python developing.
+A Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides tools for C, Fortran and Python developing, including [NetBeans](https://netbeans.org), [VS Code](https://code.visualstudio.com) and [Jupyter](https://jupyter.org).
 
-Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian-vnc-python) image.
+Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian-vnc-python) docker image.
 
-*Ramon Solano <ramon.solano at gmail.com>*
+*Ramon Solano (<ramon.solano@gmail.com>)*
 
 **Last update:** May/04/2019
 
