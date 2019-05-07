@@ -45,10 +45,25 @@ $ docker build -t rsolano/debian-vnc-cforpy .
 ## To run container
 
 ```sh
-$ docker run [-it] [--rm] [--detach] [-h <HOSTNAME] -p <LVNCPORT>:5900 -p <LSSHPORT>:22 -p <LNOTEBOOKPORT:8888> [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
+$ docker run [<DBGFIX>] [-it] [--rm] [--detach] [-h <HOSTNAME] -p <LVNCPORT>:5900 -p <LSSHPORT>:22 -p <LNOTEBOOKPORT:8888> [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
 ```
 
 where:
+
+* `DBGFIX`: Workarond for gdb error : `disabling address space randomization: Operation not permitted address space layout randomization`. There are at least two options:
+
+	* Elevate the entire container privilege (may not be available on cloud servers). Run :
+	
+		```
+		$ docker run --privileged ...
+		```
+
+	* Modify the container's Secure computing mode:
+
+		```
+		$ docker run --security-opt seccomp=unconfined [--cap-add=SYS_PTRACE] ...
+		```
+
 
 * `LVNCPORT`: Localhost VNC port to connect to (e.g. 5900 for display :0).
 
