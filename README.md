@@ -4,9 +4,9 @@ A Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides
 
 Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian-vnc-python) docker image.
 
-*Ramon Solano (<ramon.solano@gmail.com>)*
+*Ramon Solano (ramon.solano at gmail.com)*
 
-**Last update:** May/04/2019
+**Last update:** May/07/2019
 
 ## Main packages
 
@@ -44,8 +44,8 @@ $ docker build -t rsolano/debian-vnc-cforpy .
 
 ## To run container
 
-```sh
-$ docker run [<DBGFIX>] [-it] [--rm] [--detach] [-h <HOSTNAME] -p <LVNCPORT>:5900 -p <LSSHPORT>:22 -p <LNOTEBOOKPORT:8888> [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
+```
+$ docker run [DBGFIX] [-it] [--rm] [--detach] [-h HOSTNAME] -p LVNCPORT:5900 -p LSSHPORT:22 -p LNOTEBOOKPORT:8888 [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
 ```
 
 where:
