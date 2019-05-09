@@ -7,7 +7,7 @@ FROM rsolano/debian-vnc-python
 RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update -q \
 	&& apt-get install -qy gfortran gdb cmake libtool autoconf \
-	gnuplot gawk pkg-config libgsl-dev vi nano curl \
+	gnuplot gawk pkg-config libgsl-dev vim nano curl \
 	&& apt-get clean
 
 RUN \	
