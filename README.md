@@ -1,24 +1,25 @@
 # Debian-VNC-CForPy
 
-A Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides tools for C, Fortran and Python developing, including [NetBeans](https://netbeans.org), [VS Code](https://code.visualstudio.com) and [Jupyter](https://jupyter.org).
+A personal Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides tools for C, Fortran and Python developing, including [NetBeans](https://netbeans.org), [Spyder](https://www.spyder-ide.org), [VS Code](https://code.visualstudio.com) and [Jupyter](https://jupyter.org).
 
 Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian-vnc-python) docker image.
 
 *Ramon Solano (ramon.solano at gmail.com)*
 
-**Last update:** May/07/2019
+**Last update:** May/09/2019
 
 ## Main packages
 
 * VNC, SSH [1]
 * Python[2,3] [2]
-* Modules: Numpy, Matplotlib, Pandas, SciPy [2]
+	* Modules: Numpy, Matplotlib, Pandas, SciPy [2]
 * IPython [2]
 * Jupyter Notebook [2]
 * Spyder IDE [2]
 * MS Visual Studio Code [2]
 * Firefox [2]
 * C
+	* [GNU Scientific Library (GSL)](https://www.gnu.org/software/gsl/doc/html/index.html)
 * Fortran
 * Netbeans (C, Fortran)
 * C and Fortran plugins for MS Visual Studio Code
@@ -50,24 +51,26 @@ $ docker run [DBGFIX] [-it] [--rm] [--detach] [-h HOSTNAME] -p LVNCPORT:5900 -p 
 
 where:
 
-* `DBGFIX`: Workarond for gdb error : `disabling address space randomization: Operation not permitted address space layout randomization`. There are at least two options:
+* `DBGFIX`: Workarond for gdb error "`Error disabling address space randomization: Operation not permitted
+`". There are at least two options:
 
-	* Elevate the entire container privilege (may not be available on cloud servers). Run :
-	
-		```
-		$ docker run --privileged ...
-		```
-
-	* Modify the container's Secure computing mode:
+	* `--security-opt`: Modify the container's Secure computing mode:
 
 		```
 		$ docker run --security-opt seccomp=unconfined [--cap-add=SYS_PTRACE] ...
 		```
 
 
+	* `--privileged`: Elevate the entire container privilege (may not be available on cloud servers). Run :
+	
+		```
+		$ docker run --privileged ...
+		```
+
+
 * `LVNCPORT`: Localhost VNC port to connect to (e.g. 5900 for display :0).
 
-* `LSSHPORT`: local SSH port to connect to (e.g. 2222, as *well known ports* (those below 1024) may be reserved by your system).
+* `LSSHPORT`: local SSH port to connect to (e.g. 2222, as ports below 1024 may be reserved by your system).
 
 * `XRES`: Screen resolution and color depth (e.g. 2560x1440x24, 2304x1440x24, 1024x768x24, etc).
 
@@ -101,26 +104,34 @@ where:
 	$ docker run --detach -p 5900:5900 -p 2222:22 -p 8888:8888 -e XRES=1200x700x24 rsolano/debian-vnc-cforpy
 	```
 
+* Run image, detach to background and keep running in memory (control returns to user immediately); map VNC to 5900; mount local `$HOME/workspace` directory as `/home/debian/workspace` remote directory and `$HOME/NetBeansProjects` as `/home/debian` NetBeansProjects:
+
+	```sh
+	$ docker run --detach -p 5900:5900 -v $HOME/workspace:/home/debian/workspace -v $HOME/NetBeansProjects:/home/debian rsolano/debian-vnc-cforpy
+	```
+
 **NOTES**
 
-* Some graphical programs such as `Firefox`, `Spyder` and `Netbeans` can be ran by copying their corresponding icons from  `/usr/share/applications` to your desktop.
+* You can run some GUI programs such as `NetBeans`, `Spyder`, `VS Code`, `Firefox`, etc. from the `Applications` main menu. 
 
-* Alternatively, you can find all your installed graphical applications from the `Application Finder` Panel dock (located just before your home folder icon).
+* If desired, you can copy the corresponding lauch icons to your Desktop. Just copy the desired launchers icons from  `/usr/share/applications` to your desktop.
+
+* Alternatively, you can find all your installed applications from the `Application Finder` Panel dock (bottom) menu. The `App Finder is located at the left your home folder icon.
 
 ## To stop container
 
-* If running an interactive session:
+* If running an interactive session  (option `--it`):
 
   * Just press `CTRL-C` in the interactive terminal.
 
-* If running a non-interactive session:
+* If running a non-interactive session (no  `--it` nor `--detach` options provided):
 
-  * Just press `CTRL-C` in the console (non-interactive) terminal.
+  * Just press `CTRL-C` in the console (non-interactive terminal).
 
 
-* If running *detached* (background) session:
+* If running *detached* (background) session (option `--detach` provided):
 
-	1. Look for the container Id with `docker ps`:   
+	1. Look for the `Container Id` with the command `docker ps`:   
 	
 		```
 		$ docker ps
@@ -128,11 +139,27 @@ where:
 		ac46f0cf41d1        rsolano/debian-vnc-python   "/usr/bin/supervisor…"   58 seconds ago      Up 57 seconds       0.0.0.0:5900->5900/tcp, 0.0.0.0:2222->22/tcp   wizardly_bohr
 		```
 
-	2. Stop the desired container Id (ac46f0cf41d1 in this case):
+	2. Stop the desired container Id (`ac46f0cf41d1` in this case):
 
-		```sh
+		```
 		$ docker stop ac46f0cf41d1
 		```
+
+**NOTES:**
+
+* A stopped contained remains *hybernating* in your computer, similar to a laptop when it is closed. All data and program remain.
+
+	*Warning*: all programs will be closed.
+
+* A stopped container can be *waked up* or *launched* again with the command `docker start`. For example:
+
+	```
+	$ docker start ac46f0cf41d1
+	```
+
+* You can list all *running* containers with the command `docker ps`.
+
+* You can list all *stopped* containers with the command ` docker ps -a`.
 
  ## Container usage
  
@@ -157,7 +184,7 @@ where:
 		2. Login to the container and run Jupyter Notebook on the public network interface (IP=0.0.0.0).
 		2. Connect to host computer (e.g. your localhost) and specified LVNCPORT (e.g. 8888):
 		
-		```http://localhost:8888```
+			```http://localhost:8888```
 		 
 
 
