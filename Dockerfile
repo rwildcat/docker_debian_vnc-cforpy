@@ -1,5 +1,5 @@
 # Debian-based VNC C+Fortran+Python dev wokstation
-# Updated on 2019-05-06
+# Updated on 2019-05-09
 # R. Solano <ramon.solano@gmail.com>
 
 FROM rsolano/debian-vnc-python
