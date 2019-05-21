@@ -6,7 +6,7 @@ Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian
 
 *Ramon Solano (ramon.solano at gmail.com)*
 
-**Last update:** May/09/2019
+**Last update:** May/21/2019
 
 ## Main packages
 
@@ -46,7 +46,7 @@ $ docker build -t rsolano/debian-vnc-cforpy .
 ## To run container
 
 ```
-$ docker run [DBGFIX] [-it] [--rm] [--detach] [-h HOSTNAME] -p LVNCPORT:5900 -p LSSHPORT:22 -p LNOTEBOOKPORT:8888 [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
+$ docker run [DBGFIX] [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
 ```
 
 where:

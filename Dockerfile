@@ -1,8 +1,9 @@
 # Debian-based VNC C+Fortran+Python dev wokstation
-# Updated on 2019-05-09
+#
+# Updated on 2019-05-21
 # R. Solano <ramon.solano@gmail.com>
 
-FROM rsolano/debian-vnc-python
+FROM rsolano/debian-vnc-python:9.9
 
 RUN export DEBIAN_FRONTEND=noninteractive \
 	&& apt-get update -q \
@@ -31,9 +32,6 @@ RUN code --install-extension ms-vscode.cpptools \
 
 # return to root
 USER root
-	
-# add local config files
-ADD etc /etc
 
 # ports (SSH, VNC, Jupyter)
 EXPOSE 22 5900 8888
