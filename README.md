@@ -6,13 +6,13 @@ Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian
 
 *Ramon Solano (ramon.solano at gmail.com)*
 
-**Last update:** May/26/2019
+**Last update:** Jun/12/2019
 
 ## Main packages
 
 * VNC, SSH [1]
 * Python[2,3] [2]
-	* Modules: Numpy, Matplotlib, Pandas, SciPy [2]
+	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly [2]
 * IPython [2]
 * Jupyter Notebook [2]
 * Spyder IDE [2]
