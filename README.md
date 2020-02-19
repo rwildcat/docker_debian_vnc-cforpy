@@ -1,44 +1,120 @@
-# Debian-VNC-CForPy
+# Debian-VNC-C+Fortran+Python
 
-A personal Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides tools for C, Fortran and Python developing, including [NetBeans](https://netbeans.org), [Spyder](https://www.spyder-ide.org), [VS Code](https://code.visualstudio.com) and [Jupyter](https://jupyter.org).
+A personal Linux workstation based on [Debian](https://hub.docker.com/_/debian). Provides tools for C/C++, Fortran and Python developing.
+
+Includes Python2, Python3, C/C++, Fortran;  [Jupyter](https://jupyter.org), [Spyder](https://www.spyder-ide.org),  [VS Code](https://code.visualstudio.com) and [NetBeans](https://netbeans.org).
 
 Based on the [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian-vnc-python) docker image.
 
-*Ramon Solano (ramon.solano at gmail.com)*
+*Ramon Solano <<ramon.solano@gmail.com>>*
 
-**Last update:** Jun/12/2019
+**Last update:** Feb/19/2020   
+**Debian version:** 10.2
+
 
 ## Main packages
 
-* VNC, SSH [1]
-* Python[2,3] [2]
-	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly [2]
-* IPython [2]
-* Jupyter Notebook [2]
-* Spyder IDE [2]
-* MS Visual Studio Code [2]
-* Firefox [2]
-* C
+* VNC, SSH
+* Python[2,3]
+	* Modules: Numpy, Matplotlib, Pandas, SciPy, Plotly
+* IPython[2,3]
+* Jupyter Notebook[2,3]
+* Spyder IDE[2,3]
+* MS Visual Studio Code (C, Fortran)
+* Firefox
+* C (gcc)
 	* [GNU Scientific Library (GSL)](https://www.gnu.org/software/gsl/doc/html/index.html)
-* Fortran
+* Fortran (gfortran)
+	* [OGPF Plotting library](https://github.com/kookma/ogpf)
+	* [Open Coarrays](https://github.com/sourceryinstitute/OpenCoarrays#overview) HPC multithread library
 * Netbeans (C, Fortran)
-* C and Fortran plugins for MS Visual Studio Code
-
-[1]: Inherited from [rsolano/debian-slim-vnc](https://hub.docker.com/r/rsolano/debian-slim-vnc).   
-[2]: Iherited from [rsolano/debian-vnc-python](https://hub.docker.com/r/rsolano/debian-vnc-python).
-
-
 
 
 ## Users
 
-User/pwd:
+| User | Password|
+| --- | --- |
+| root | debian |
+| debian | debian (sudoer) |
 
-* root / debian
-* debian / debian (sudoer)
 
-## To build from `Dockerfile`
+## Usage (synopsis)
 
+Usage is split in two main sections:
+
+* Docker image usage
+* Python usage
+
+
+### Docker image usage
+
+1. Download (*pull*) the image from its [docker hub repository](https://cloud.docker.com/u/rsolano/repository/docker/rsolano/debian-vnc-cforpy) (optional):
+   
+	```sh
+	$ docker pull rsolano/debian-vnc-cforpy
+	```
+   
+2. Run the container (the image will be *pulled* first if not previously downloaded).
+
+	For example:
+
+	* To run an ephemeral VNC session (port 5900):
+
+		```sh
+	   $ docker run --rm -p 5900:5900 rsolano/debian-vnc-cforpy
+	   ```
+	   
+	* To run an ephemeral VNC + SSH session (port 5900 and 2222):
+
+		```sh
+	   $ docker run --rm -p 5900:5900 -p 2222:22 rsolano/debian-vnc-cforpy
+	   ```
+
+	* To run an ephemeral VNC + SSH session (port 5900 and 2222), and mounting my personal `$HOME/Documents` directory into remote `/Documents` :
+
+		```sh
+	   $ docker run --rm -p 5900:5900 -p 2222:22 -v HOME/Documents:/Docuents rsolano/debian-vnc-cforpy
+	   ```
+
+3. Use a VNC Viewer (such as the [RealVNC viewer](https://www.realvnc.com/en/connect/download/viewer/)) to connect to the host server (usually the `localhost`), port 5900:
+
+	```
+	localhost:5900
+	```
+
+### Python usage
+
+| Program  | Python2      | Python3      |
+| -------- | :----------- | :----------- |
+| Python  | `$ python2`   | `$ python3`  |
+| IPython  | `$ ipython2` | `$ ipython3` |
+| Spyder   | `$ spyder`   | `$ spyder3`  |
+| PIP      | `$ pip2`     | `$ pip3`     |
+
+**Jupyter Notebook**
+
+| Mode					  | Command 							|
+| --- 					  | --- 								|
+| Local usage (localhost) | `$ jupyter-notebook --ip 127.0.0.1` |
+| Public usage (network): | `$ jupyter-notebook --ip 0.0.0.0` 	|
+
+### Fortran Coarrays usage
+
+| Action     | Command                              |
+| ---------- | ------------------------------------ |
+| To compile | `$ caf [-o <progexe>] <progsrc.f90>` |
+| To run     | `$ cafrun -np <nproc> <progexe>`     |
+
+
+### OGPF graphics library usage
+
+| Action         | Command                              |
+| -------------- | ------------------------------------ |
+| Source program | `use ogpf`
+| To compile     | `$ gfortran -I/usr/lib [-o <progexe>] <progsrc.f90> -logpf` |
+
+
+## To build the image from the `Dockerfile` (optional, for Dockerfile developers)
 
 If you want to customize the image or use it for creating a new one, you can download (clone) it from the [corresponding github repository](https://github.com/rwildcat/docker_debian-vnc-cforpy). 
 
@@ -60,8 +136,7 @@ $ docker pull rsolano/debian-vnc-cforpy
 **NOTE:** If you run the image without downloading it first (*e.g.* with `$docker run ..`), Docker will *pull it* from the docker repository for you if it does not exist in your local image repository.
 
 
-
-## To run container
+## To run the container (full syntax)
 
 ```
 $ docker run [DBGFIX] [-it] [--rm] [--detach] [-h HOSTNAME] [-p LVNCPORT:5900] [-p LSSHPORT:22] [-p LNOTEBOOKPORT:8888] [-v LDIR:DIR] [-e XRES=1280x800x24] rsolano/debian-vnc-cforpy
@@ -78,8 +153,7 @@ where:
 		$ docker run --security-opt seccomp=unconfined [--cap-add=SYS_PTRACE] ...
 		```
 
-
-	* `--privileged`: Elevate the entire container privilege (may not be available on cloud servers). Run :
+	* `--privileged`: Elevate the entire container privilege (may not be available on cloud servers):
 	
 		```
 		$ docker run --privileged ...
@@ -96,7 +170,7 @@ where:
 
 * `LDIR:DIR`: Local directory to mount on container. `LDIR` is the local directory to export; `DIR` is the target dir on the container.  Both sholud be specified as absolute paths. For example: `-v $HOME/worskpace:/home/debian/workspace`.
 
-### Examples
+### Usage examples
 
 * Run container, keep terminal open (interactive terminal session); remove container from memory once finished the container; map VNC to 5900 and SSH to 2222, no Jupyter Notebooks:
 
