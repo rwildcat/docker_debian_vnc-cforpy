@@ -82,7 +82,9 @@ Usage is split in two main sections:
 	localhost:5900
 	```
 
-### Python usage
+### Programs usage
+
+**Python**
 
 | Program  | Python2      | Python3      |
 | -------- | :----------- | :----------- |
@@ -98,6 +100,7 @@ Usage is split in two main sections:
 | Local usage (localhost) | `$ jupyter-notebook --ip 127.0.0.1` |
 | Public usage (network): | `$ jupyter-notebook --ip 0.0.0.0` 	|
 
+
 ### Fortran Coarrays usage
 
 | Action     | Command                              |
@@ -111,7 +114,7 @@ Usage is split in two main sections:
 | Action         | Command                              |
 | -------------- | ------------------------------------ |
 | Source program | `use ogpf`
-| To compile     | `$ gfortran -I/usr/lib [-o <progexe>] <progsrc.f90> -logpf` |
+| To compile     | `$ gfortran -I /usr/lib [-o <progexe>] <progsrc.f90> -l ogpf` |
 
 
 ## To build the image from the `Dockerfile` (optional, for Dockerfile developers)
